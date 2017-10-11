@@ -1,1 +1,4 @@
 bin/
+.idea
+.idea/misc.xml
+.gitignore.orig
