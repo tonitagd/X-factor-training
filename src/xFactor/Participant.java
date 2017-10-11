@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Participant extends Person {
 	private static int countParticipants;
-	private static ArrayList<Participant> allParticipants = new ArrayList<Participant>();
 	private String quality;
 	private ArrayList<Judge> positiveVotes = new ArrayList<Judge>();
 	
@@ -27,19 +26,19 @@ public class Participant extends Person {
 		return positiveVotes;
 	}
 	
-	public static ArrayList<Participant> getAllParticipants() {
-		return allParticipants;
+	public static ArrayList<Participant> getParticipants() {
+		return Competition.participants;
 	}
 	
 	public Participant(String fName, String lName, int age, String gender, String birthPlace) {
 		super(fName, lName, age, gender, birthPlace);
 		countParticipants++;
-		allParticipants.add(this);
+		Competition.participants.add(this);
 	}
 	
 	public ArrayList<Participant> removeParticipant(Participant participant) {
-		allParticipants.remove(participant);
-		return allParticipants;
+		Competition.participants.remove(participant);
+		return Competition.participants;
 	}
 	
 	public void printVotes() {

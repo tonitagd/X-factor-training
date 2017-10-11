@@ -11,7 +11,7 @@ public class Main {
 		Judge judge2 = new Judge("Elena", "Petrova", 36, "male", "Sofia");
 		Judge judge3 = new Judge("Sania", "Jekova", 42, "female", "Burgas");
 		Judge judge4 = new Judge("Milen", "Stoyanov", 50, "male", "Plovdiv");
-		judge2.setSpecial(true);
+//		judge2.setSpecial(true);
 		
 		Participant participant1 = new Participant("Galia", "Nikolova", 23, "female", "Plovdiv");
 		Participant participant2 = new Participant("Nikolay", "Dimitrov", 26, "male", "Varna");

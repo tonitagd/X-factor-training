@@ -3,7 +3,7 @@ package xFactor;
 import java.util.ArrayList;
 
 public class Stage {
-	private static int numberOfStages;
+	private static int numberOfStages = 8;
 	private static int countInstances;
 	private int stageNumber;
 	private int maxParticipants;
@@ -54,12 +54,12 @@ public class Stage {
 		}
 		if(countInstances == 1) {
 			this.maxParticipants = Participant.getCountParticipants();
-			this.participantsInStage.addAll(Participant.getAllParticipants());
+			this.participantsInStage.addAll(Participant.getParticipants());
 		} else {
 			this.maxParticipants = max;
 			this.participantsInStage = tempArray;
 		}
-		for(Participant p : Participant.getAllParticipants()) {
+		for(Participant p : Participant.getParticipants()) {
 			p.getPositiveVotes().clear();
 		}
 	}
@@ -77,9 +77,6 @@ public class Stage {
 			for(Judge j : participant.getPositiveVotes()) {
 				if(j.isSpecial() == true) {
 					qualifiedParticipants.add(participant);
-					break;
-				} else {
-					System.out.println("Please set special rights to one of the judges!");
 					break;
 				}
 			}

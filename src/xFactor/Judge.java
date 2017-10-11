@@ -4,41 +4,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Judge extends Person {
-	private static int maxFavourites;
-	private static int numberOfJudges;
+	private int maxFavourites;
 	private static int countInstances;
-	private static ArrayList<Judge> judges = new ArrayList<Judge>(numberOfJudges);
 	private int vote;
 	private boolean isSpecial;
 	private ArrayList<Participant> favourites = new ArrayList<Participant>(maxFavourites);
 	private HashMap<Participant, Integer> votes = new HashMap<Participant, Integer>();
+	public static int numberOfJudges = 4;
 	
 	public int getVote() {
 		return vote;
 	}
 	
 	public static ArrayList<Judge> getJudges() {
-		return Judge.judges;
+		return Competition.judges;
 	}
 	
 	public static int getJudgesSize() {
-		return judges.size();
+		return Competition.judges.size();
 	}
 	
-	public static int getMaxFavourites() {
+	public int getMaxFavourites() {
 		return maxFavourites;
 	}
 
-	public static void setMaxFavourites(int maxFavourites) {
-		Judge.maxFavourites = maxFavourites;
-	}
-
-	public static int getNumberOfJudges() {
-		return numberOfJudges;
-	}
-
-	public static void setNumberOfJudges(int numberOfJudges) {
-		Judge.numberOfJudges = numberOfJudges;
+	public void setMaxFavourites(int maxFavourites) {
+		this.maxFavourites = maxFavourites;
 	}
 	
 	public boolean isSpecial() {
@@ -51,12 +42,12 @@ public class Judge extends Person {
 	
 	public Judge(String fName, String lName, int age, String gender, String birthPlace) {
 		super(fName, lName, age, gender, birthPlace);
-		judges.add(this);
 		
 		if(countInstances == numberOfJudges) {
 			throw new IllegalArgumentException("Judges must be " + numberOfJudges);
 		}
-		
+
+		Competition.judges.add(this);
 		countInstances++;
 	}
 	
@@ -64,7 +55,7 @@ public class Judge extends Person {
 		if(favourites.size() < maxFavourites) {
 			for(Participant part : favourites) {
 				if(participant.equals(part)) {
-					System.out.println("This participant is already in your list of favourites.");
+					System.out.printf("%s is already in your list of favourites.", participant.getName());
 					return;
 				}
 			}
