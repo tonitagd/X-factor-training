@@ -5,7 +5,15 @@ public class Person {
 	private String lastName;
 	private int age;
 	private String gender;
-	private String birthPlace;
+	private String city;
+	
+	public Person(String fName, String lName, int age, String gender, String city) {
+		this.firstName = fName;
+		this.lastName = lName;
+		this.age = age;
+		this.gender = gender;
+		this.city = city;
+	}
 	
 	public String getFirstName() {
 		return firstName;
@@ -48,25 +56,12 @@ public class Person {
 		this.gender = gender;
 	}
 	
-	public String getBirthPlace() {
-		return birthPlace;
+	public String getCity() {
+		return city;
 	}
 	
-	public void setBirthPlace(String birthPlace) {
-		this.birthPlace = birthPlace;
-	}
-	
-	public void printInfo() {
-		System.out.printf("Name: %s\nAge: %d\nGender: %s\nPlace of birth: %s\n",
-				this.getName(), this.getAge(), this.getGender(), this.getBirthPlace());
-	}
-	
-	public Person(String fName, String lName, int age, String gender, String birthPlace) {
-		this.firstName = fName;
-		this.lastName = lName;
-		this.age = age;
-		this.gender = gender;
-		this.birthPlace = birthPlace;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	@Override
