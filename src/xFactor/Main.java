@@ -29,26 +29,26 @@ public class Main {
 		
 		System.out.println(stage1.getParticipantsInStage());
 		
-//		participant1.setQuality("Playing the guitar.");
-//		participant2.setQuality("Dancing.");
-//		
-//		PersonServiceImpl person = new PersonServiceImpl();
-//		person.printInfo(participant2);
-//		
-//		System.out.println(participant3.getQuality());
-//		System.out.println(participant1.getQuality());
-//		System.out.println(participant2.getQuality());
-//	
+		participant1.setQuality("Playing the guitar.");
+		participant2.setQuality("Dancing.");
+		
+		PersonServiceImpl person = new PersonServiceImpl();
+		person.printInfo(participant2);
+		
+		System.out.println(participant3.getQuality());
+		System.out.println(participant1.getQuality());
+		System.out.println(participant2.getQuality());
+	
 		JudgeServiceImpl judge = new JudgeServiceImpl();
-//		judge.addFavourite(participant1, judge1);
-//		judge.addFavourite(participant2, judge1);
-//		judge.addFavourite(participant2, judge1);
-//		judge.addFavourite(participant4, judge1);
-//		judge.addFavourite(participant3, judge1);
-//		judge.printFavourites(judge1);
-//		judge.removeFavourite(participant1,judge1);
-//		judge.printFavourites(judge1);
-//		judge.clearFavourites(judge1);
+		judge.addFavourite(participant1, judge1);
+		judge.addFavourite(participant2, judge1);
+		judge.addFavourite(participant2, judge1);
+		judge.addFavourite(participant4, judge1);
+		judge.addFavourite(participant3, judge1);
+		judge.printFavourites(judge1);
+		judge.removeFavourite(participant1,judge1);
+		judge.printFavourites(judge1);
+		judge.clearFavourites(judge1);
 		
 		judge.vote(participant1, 1, judge1);
 		judge.vote(participant1, 1, judge2);
