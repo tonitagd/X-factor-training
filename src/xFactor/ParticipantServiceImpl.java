@@ -1,5 +1,7 @@
 package xFactor;
 
+import java.util.ArrayList;
+
 public class ParticipantServiceImpl implements ParticipantService {
 	
 	protected ParticipantServiceImpl() {};
@@ -18,5 +20,11 @@ public class ParticipantServiceImpl implements ParticipantService {
 		} else {
 			System.out.println("Nobody.");
 		}
+	}
+	
+	@Override
+	public ArrayList<Participant> removeParticipant(Participant participant) {
+		Competition.getParticipants().remove(participant);
+		return Competition.getParticipants();
 	}
 }

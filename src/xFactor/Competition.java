@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public abstract class Competition {
 	private static ArrayList<Judge> judges = new ArrayList<Judge>();
 	private static ArrayList<Participant> participants = new ArrayList<Participant>();
+	
 	public static int numberOfJudges;
 	public static int judgeCountInstances;
 
@@ -33,10 +34,5 @@ public abstract class Competition {
 
 	public static void setNumberOfStages(int numberOfStages) {
 		Competition.numberOfStages = numberOfStages;
-	}
-	
-	public ArrayList<Participant> removeParticipant(Participant participant) {
-		getParticipants().remove(participant);
-		return getParticipants();
 	}
 }

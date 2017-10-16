@@ -29,6 +29,15 @@ public class Stage {
 	}
 	
 	public ArrayList<Participant> getParticipantsInStage() {
+		if(Competition.stageCountInstances != 1) {
+			System.out.println("Participants in stage " + this.stageNumber + ":");
+		}
+		
+		if(participantsInStage.size() == 1) {
+			System.out.print("The winner of X-Factor is: ");
+			return participantsInStage;
+		}
+		
 		return participantsInStage;
 	}
 	
@@ -37,9 +46,6 @@ public class Stage {
 	}
 	
 	public ArrayList<Participant> getQualifiedParticipants() {
-		if(qualifiedParticipants.size() == 1) {
-			System.out.println("The winner of X-Factor is: " + qualifiedParticipants.get(0));
-		}
 		return qualifiedParticipants;
 	}
 }
