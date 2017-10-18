@@ -5,6 +5,6 @@ public interface JudgeService {
 	public void removeFavourite(Participant participant, Judge judge);
 	public void printFavourites(Judge judge);
 	public void clearFavourites(Judge judge);
-	public void vote(Participant participant, int vote, Judge judge);
+	public void vote(Participant participant, int vote, Judge judge, Stage stage);
 	public void printJudges();
 }

@@ -1,12 +1,14 @@
 package xFactor;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class StageServiceImpl implements StageService {
+	Set<Participant> tempArray = new HashSet<Participant>();
 	
 	protected StageServiceImpl() {};
-
-	private static ArrayList<Participant> tempArray = new ArrayList<Participant>();
 	
 	@Override
 	public void initializeInstance(int max, int stageNum, Stage stage) {
@@ -20,38 +22,32 @@ public class StageServiceImpl implements StageService {
 		
 		if(Competition.stageCountInstances == 1) {
 			stage.setMaxParticipants(Competition.getParticipants().size());
-			System.out.println("Participants in stage " + stageNum + ":");
 			stage.getParticipantsInStage().addAll(Competition.getParticipants());
 		} else {
 			stage.setMaxParticipants(max);
-			stage.setParticipantsInStage(tempArray);
 		}
 		
-		for(Participant p : Competition.getParticipants()) {
-			p.getPositiveVotes().clear();
+		for(Judge j : Competition.getJudges()) {
+			j.getFavourites().clear();
 		}
 	}
 	
 	@Override
-	public ArrayList<Participant> qualifyParticipant(Participant participant, Stage stage) {
-		JudgeServiceImpl js = new JudgeServiceImpl();
-		for(Judge j : Competition.getJudges()) {
-			js.vote(participant, j.getVote(), j);
-		}
+	public Set<Participant> qualifyParticipants(Stage stage) {
+		double halfJudgeSize = Competition.getJudgesSize() / 2;
+		Map<Participant, Integer> helper = countVotes(stage);
 		
-		int size = participant.getPositiveVotes().size();
-		int halfJudgeSize = Competition.getJudgesSize() / 2;
-		boolean isEven = Competition.getJudgesSize() % 2 == 0;
-		
-		if(size > halfJudgeSize) {
-			stage.getQualifiedParticipants().add(participant);
-		} else if(size == halfJudgeSize && isEven) {
-			for(Judge j : participant.getPositiveVotes()) {
-				if(j.isSpecial() == true) {
-					stage.getQualifiedParticipants().add(participant);
-					break;
+		for (Map.Entry<Participant, Integer> entry : helper.entrySet()) {
+		    if(entry.getValue() > halfJudgeSize) {
+		    	stage.getQualifiedParticipants().add(entry.getKey());
+		    } else if(entry.getValue() == halfJudgeSize) {
+		    	for(Vote v : stage.getVotes()) {
+					if(v.getParticipant() == entry.getKey() && v.getJudge().isSpecial()) {
+						stage.getQualifiedParticipants().add(entry.getKey());
+						break;
+					}
 				}
-			}
+		    }
 		}
 		
 		for(Judge j : Competition.getJudges()) {
@@ -60,7 +56,23 @@ public class StageServiceImpl implements StageService {
 			}
 		}
 		
-		tempArray = stage.getQualifiedParticipants();
 		return stage.getQualifiedParticipants();
+	}
+	
+	public Map<Participant, Integer> countVotes(Stage stage) {
+		Map<Participant, Integer> map = new HashMap<Participant, Integer>();
+		for(Vote v : stage.getVotes()) {
+			if(map.get(v.getParticipant()) == null) {
+				map.put(v.getParticipant(), v.getVote());
+			} else {
+				int value = map.get(v.getParticipant());
+				if(v.getVote() == 1) {
+					value++;
+					map.put(v.getParticipant(), value);
+				}
+			}
+		}
+		
+		return map;
 	}
 }

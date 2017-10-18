@@ -4,6 +4,8 @@ public class JudgeServiceImpl implements JudgeService {
 	
 	protected JudgeServiceImpl() {};
 	
+	StageServiceImpl stageService = new StageServiceImpl();
+	
 	@Override
 	public void addFavourite(Participant participant, Judge judge) {
 		if(judge.getFavourites().size() < judge.getMaxFavourites()) {
@@ -21,7 +23,7 @@ public class JudgeServiceImpl implements JudgeService {
 	@Override
 	public void printFavourites(Judge judge) {
 		if(judge.getFavourites().size() > 0) {
-			System.out.println(judge.getFavourites());
+			System.out.println(judge + "'s favourites: " + judge.getFavourites());
 		}
 	}
 	
@@ -34,15 +36,8 @@ public class JudgeServiceImpl implements JudgeService {
 	}
 	
 	@Override
-	public void vote(Participant participant, int vote, Judge judge) {
-		judge.getVotes().put(participant, vote);
-		
-		if(vote == 1) {
-			participant.getPositiveVotes().add(judge);
-			return;
-		}
-		
-		judge.setVote(vote);
+	public void vote(Participant participant, int voteValue, Judge judge, Stage stage) {
+		stage.getVotes().add(new Vote(participant, judge, voteValue));
 	}
 	
 	@Override

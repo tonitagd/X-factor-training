@@ -1,8 +1,8 @@
 package xFactor;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 public interface StageService {
 	public void initializeInstance(int max, int stageNum, Stage stage);
-	public ArrayList<Participant> qualifyParticipant(Participant participant, Stage stage);
+	public Set<Participant> qualifyParticipants(Stage stage);
 }

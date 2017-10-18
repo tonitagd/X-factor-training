@@ -1,12 +1,15 @@
 package xFactor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Stage {
 	private int stageNumber;
 	private int maxParticipants;
-	private ArrayList<Participant> participantsInStage = new ArrayList<Participant>();
-	private ArrayList<Participant> qualifiedParticipants = new ArrayList<Participant>();
+	private Set<Participant> participantsInStage = new HashSet<Participant>();
+	private Set<Participant> qualifiedParticipants = new HashSet<Participant>();
+	private ArrayList<Vote> votes = new ArrayList<Vote>();
 	
 	StageServiceImpl service = new StageServiceImpl();
 	
@@ -28,11 +31,7 @@ public class Stage {
 		this.maxParticipants = maxParticipants;
 	}
 	
-	public ArrayList<Participant> getParticipantsInStage() {
-		if(Competition.stageCountInstances != 1) {
-			System.out.println("Participants in stage " + this.stageNumber + ":");
-		}
-		
+	public Set<Participant> getParticipantsInStage() {		
 		if(participantsInStage.size() == 1) {
 			System.out.print("The winner of X-Factor is: ");
 			return participantsInStage;
@@ -41,11 +40,19 @@ public class Stage {
 		return participantsInStage;
 	}
 	
-	public void setParticipantsInStage(ArrayList<Participant> participantsInStage) {
+	public void setParticipantsInStage(Set<Participant> participantsInStage) {
 		this.participantsInStage = participantsInStage;
 	}
 	
-	public ArrayList<Participant> getQualifiedParticipants() {
+	public Set<Participant> getQualifiedParticipants() {
 		return qualifiedParticipants;
+	}
+
+	public ArrayList<Vote> getVotes() {
+		return votes;
+	}
+
+	public void setVotes(ArrayList<Vote> votes) {
+		this.votes = votes;
 	}
 }
