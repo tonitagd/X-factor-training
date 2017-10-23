@@ -12,12 +12,12 @@ X-factor game
 	- Stage(s) – кръгове. Each Stage will need
 		- Max number of participants
 		- Participants who took place in the stage
-		- Participants who qualified<br/>***Note!* A validation will be required so the participants will not exceed the allowed number<br/>*Exception *case will be, when the Judge adds someone with a preference (see next point)**<br/>
-	- Judge(s) who are also (Person(s)). The Judge can have:
+		- Participants who qualified<br/>***Note!* A validation will be required so the participants will not exceed the allowed number<br/>*Exception *case will be, when the judgeService adds someone with a preference (see next point)**<br/>
+	- judgeService(s) who are also (Person(s)). The judgeService can have:
 		- Maximum number of Favorites
 		- Favorites – Participant, who will continue the Stage no matter what (even if there is no place for him in the Stage)
 
-***Note! How you can engage the Judge favorites to the Stage’s participants
+***Note! How you can engage the judgeService favorites to the Stage’s participants
 Favorites may change during the show***
 
 ***Estimation** - 4 days*

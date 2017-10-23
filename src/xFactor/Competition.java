@@ -35,4 +35,10 @@ public abstract class Competition {
 	public static void setNumberOfStages(int numberOfStages) {
 		Competition.numberOfStages = numberOfStages;
 	}
+	
+	public static void printJudges() {
+		for(int i = 0; i < getJudgesSize(); i++) {
+			System.out.println(getJudges().get(i));
+		}
+	}
 }

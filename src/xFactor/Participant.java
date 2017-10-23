@@ -1,18 +1,21 @@
 package xFactor;
 
+import java.util.ArrayList;
+
 public class Participant extends Person {
-	private String quality = "Singing";
+	private ArrayList<String> qualities = new ArrayList<String>();
 	
-	public Participant(String fName, String lName, int age, String gender, String birthPlace) {
+	public Participant(String fName, String lName, int age, Gender gender, String birthPlace) {
 		super(fName, lName, age, gender, birthPlace);
+		qualities.add("Singing");
 		Competition.getParticipants().add(this);
 	}
 	
-	public String getQuality() {
-		return quality;
+	public ArrayList<String> getQualities() {
+		return qualities;
 	}
 
-	public void setQuality(String quality) {
-		this.quality += ", " + quality;
+	public void addQuality(String quality) {
+		this.qualities.add(quality);
 	}
 }

@@ -4,14 +4,17 @@ public class Person {
 	private String firstName;
 	private String lastName;
 	private int age;
-	private String gender;
 	private String city;
+	private Gender value;
+	enum Gender {
+		Male, Female
+	}
 	
-	public Person(String fName, String lName, int age, String gender, String city) {
+	public Person(String fName, String lName, int age, Gender gender, String city) {
 		this.firstName = fName;
 		this.lastName = lName;
 		this.age = age;
-		this.gender = gender;
+		this.value = gender;
 		this.city = city;
 	}
 	
@@ -47,15 +50,7 @@ public class Person {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
-	public String getGender() {
-		return gender;
-	}
-	
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	
+
 	public String getCity() {
 		return city;
 	}
@@ -63,9 +58,19 @@ public class Person {
 	public void setCity(String city) {
 		this.city = city;
 	}
+	
+	public void setValue(Gender e)
+    {
+        this.value = e; 
+    }
+
+    public Gender getValue()
+    {
+        return value;
+    }
 
 	@Override
 	public String toString() {
-		return getName();
+		return this.getName();
 	}
 }

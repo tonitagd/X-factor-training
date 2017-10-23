@@ -1,12 +1,8 @@
 package xFactor;
 
-public class PersonServiceImpl implements PersonService {
-	
-	protected PersonServiceImpl() {};
-	
-	@Override
+public class PersonServiceImpl {
 	public void printInfo(Person person) {
-		System.out.printf("Name: %s\nAge: %d\nGender: %s\nCity: %s\n\n",
-				person.getName(), person.getAge(), person.getGender(), person.getCity());
+		System.out.printf("Name: %s\nAge: %d\nGender: %s\nCity: %s\n\n", 
+				person.getName(), person.getAge(), person.getValue(), person.getCity());
 	}
 }

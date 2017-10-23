@@ -3,10 +3,10 @@ package xFactor;
 import java.util.ArrayList;
 
 public class ParticipantServiceImpl implements ParticipantService {
-	
-	StageServiceImpl stageService = new StageServiceImpl();
-	
-	protected ParticipantServiceImpl() {};
+	private StageServiceImpl stageService;
+	public ParticipantServiceImpl() {
+		stageService = new StageServiceImpl();
+	}
 	
 	@Override
 	public void printVotes(Participant participant, Stage stage) {
@@ -15,9 +15,9 @@ public class ParticipantServiceImpl implements ParticipantService {
 		if(stageService.countVotes(stage).get(participant) == Competition.getJudgesSize()) {
 		   	System.out.println("Everybody.");
 		} else if(stageService.countVotes(stage).get(participant) != 0) {
-			for (Vote v : stage.getVotes()) {
-				if(v.getParticipant() == participant && v.getVote() == 1) {
-					System.out.println(v.getJudge());
+			for (Vote vote : stage.getVotes()) {
+				if(vote.getParticipant().equals(participant) && vote.getVote() == true) {
+					System.out.println(vote.getJudge());
 				}
 			}
 		} else {
@@ -34,6 +34,6 @@ public class ParticipantServiceImpl implements ParticipantService {
 	@Override
 	public void printInfo(Participant participant) {
 		System.out.printf("Name: %s\nAge: %d\nGender: %s\nCity: %s\nQuality: %s\n\n",
-				participant.getName(), participant.getAge(), participant.getGender(), participant.getCity(), participant.getQuality());
+				participant.getName(), participant.getAge(), participant.getValue(), participant.getCity(), participant.getQualities());
 	}
 }
