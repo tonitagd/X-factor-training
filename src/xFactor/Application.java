@@ -14,41 +14,11 @@ public class Application {
 	private Stage[] allStages;
 	private ArrayList<String> qualities;
 	
-	private ParticipantServiceImpl participantService = new ParticipantServiceImpl();
 	private PersonServiceImpl personService = new PersonServiceImpl();
 	private StageServiceImpl stageService = new StageServiceImpl();
-
+	private Competition competition = new Competition();
+			
 	private Random random = new Random();
-	
-	private Judge judge1;
-	private Judge judge2;
-	private Judge judge3;
-	private Judge judge4;
-	
-	private Participant participant1;
-	private Participant participant2;
-	private Participant participant3;
-	private Participant participant4;
-	private Participant participant5;
-	private Participant participant6;
-	private Participant participant7;
-	private Participant participant8;
-	private Participant participant9;
-	private Participant participant10;
-	private Participant participant11;
-	private Participant participant12;
-	private Participant participant13;
-	private Participant participant14;
-	private Participant participant15;
-	
-	private Stage stage1;
-	private Stage stage2;
-	private Stage stage3;
-	private Stage stage4;
-	private Stage stage5;
-	private Stage stage6;
-	private Stage stage7;
-	private Stage stage8;
 	
 	public Stage getStage(int stageNum) {
 		return allStages[stageNum - 1];
@@ -56,6 +26,16 @@ public class Application {
 	
 	private void addStages() {
 		allStages = new Stage[8];
+		
+		Stage stage1 = null;
+		Stage stage2 = null;
+		Stage stage3 = null;
+		Stage stage4 = null;
+		Stage stage5 = null;
+		Stage stage6 = null;
+		Stage stage7 = null;
+		Stage stage8 = null;
+		
 		allStages[0] = stage1;
 		allStages[1] = stage2;
 		allStages[2] = stage3;
@@ -68,29 +48,48 @@ public class Application {
 	
 	private void addJudges(){
 		allJudges = new ArrayList<Judge>();
-		allJudges.add(judge1 = new Judge("Martin", "Momov", 36, Gender.Male, "Sofia", 3));
-		allJudges.add(judge2 = new Judge("Elena", "Marinova", 36, Gender.Female, "Sofia", 3));
-		allJudges.add(judge3 = new Judge("Delyan", "Lilov", 36, Gender.Male, "Sofia", 3));
-		allJudges.add(judge4 = new Judge("Stanislav", "Ovcharov", 36, Gender.Male, "Sofia", 3));
+		allJudges.add(new Judge("Martin", "Momov", 36,
+				Gender.Male, "Sofia", 3, 1));
+		allJudges.add(new Judge("Elena", "Marinova", 36,
+				Gender.Female, "Sofia", 3, 2));
+		allJudges.add(new Judge("Delyan", "Lilov", 36,
+				Gender.Male, "Sofia", 3, 3));
+		allJudges.add(new Judge("Stanislav", "Ovcharov", 36,
+				Gender.Male, "Sofia", 3, 4));
 	}
 	
 	private void addParticipants(){
 		allParticipants = new ArrayList<Participant>();
-		allParticipants.add(participant1 = new Participant("Velina", "Kraeva", 25, Gender.Female, "Plovdiv"));
-		allParticipants.add(participant2 = new Participant("Doroteya", "Mitova", 25, Gender.Female, "Varna"));
-		allParticipants.add(participant3 = new Participant("Veliko", "Velichkov", 25, Gender.Male, "Petrich"));
-		allParticipants.add(participant4 = new Participant("Elizabet", "Pavlova", 25, Gender.Female, "Sofia"));
-		allParticipants.add(participant5 = new Participant("Yana", "Koleva", 25, Gender.Female, "Plovdiv"));
-		allParticipants.add(participant6 = new Participant("Lachezar", "Balabanov", 25, Gender.Male, "Varna"));
-		allParticipants.add(participant7 = new Participant("Martin", "Grigorov", 25, Gender.Male, "Sofia"));
-		allParticipants.add(participant8 = new Participant("Nataliya", "Vasileva", 25, Gender.Female, "Burgas"));
-		allParticipants.add(participant9 = new Participant("Desislava", "Petkova", 25, Gender.Female, "Vraca"));
-		allParticipants.add(participant10 = new Participant("Yasen", "Gurvanov", 25, Gender.Male, "Blagoevgrad"));
-		allParticipants.add(participant11 = new Participant("Grudi", "Radev", 25, Gender.Male, "Stara Zagora"));
-		allParticipants.add(participant12 = new Participant("Dilyana", "Stolarova", 25, Gender.Female, "Varna"));
-		allParticipants.add(participant13 = new Participant("Toni", "Ilieva", 25, Gender.Female, "Troyan"));
-		allParticipants.add(participant14 = new Participant("Zdravko", "Kostadinov", 25, Gender.Male, "Sofia"));
-		allParticipants.add(participant15 = new Participant("Kristiyan", "Srebrev", 25, Gender.Male, "Purvomay"));
+		allParticipants.add(new Participant("Velina", "Kraeva", 25,
+				Gender.Female, "Plovdiv", 11));
+		allParticipants.add(new Participant("Doroteya", "Mitova", 25,
+				Gender.Female, "Varna", 12));
+		allParticipants.add(new Participant("Veliko", "Velichkov", 25,
+				Gender.Male, "Petrich", 13));
+		allParticipants.add(new Participant("Elizabet", "Pavlova", 25,
+				Gender.Female, "Sofia", 14));
+		allParticipants.add(new Participant("Yana", "Koleva", 25,
+				Gender.Female, "Plovdiv", 15));
+		allParticipants.add(new Participant("Lachezar", "Balabanov", 25,
+				Gender.Male, "Varna", 16));
+		allParticipants.add(new Participant("Martin", "Grigorov", 25,
+				Gender.Male, "Sofia", 17));
+		allParticipants.add(new Participant("Nataliya", "Vasileva", 25,
+				Gender.Female, "Burgas", 18));
+		allParticipants.add(new Participant("Desislava", "Petkova", 25,
+				Gender.Female, "Vraca", 19));
+		allParticipants.add(new Participant("Yasen", "Gurvanov", 25,
+				Gender.Male, "Blagoevgrad", 20));
+		allParticipants.add(new Participant("Grudi", "Radev", 25,
+				Gender.Male, "Stara Zagora", 21));
+		allParticipants.add(new Participant("Dilyana", "Stolarova", 25,
+				Gender.Female, "Varna", 22));
+		allParticipants.add(new Participant("Toni", "Ilieva", 25,
+				Gender.Female, "Troyan", 23));
+		allParticipants.add(new Participant("Zdravko", "Kostadinov", 25,
+				Gender.Male, "Sofia", 24));
+		allParticipants.add(new Participant("Kristiyan", "Srebrev", 25,
+				Gender.Male, "Purvomay", 25));
 	}
 	
 	private void fillQualities() {
@@ -111,16 +110,16 @@ public class Application {
 		}
 	}
 	
-	public void giveSpecialVote(String name) {
-		for(Judge judge : Competition.getJudges()) {
-			if(judge.getName() == name) {
+	public void giveSpecialVote(int id) {
+		for(Judge judge : competition.getJudges()) {
+			if(judge.getId() == id) {
 				judge.setSpecial(true);
 			}
 		}
 	}
 	
 	public void printSpecialJudge() {
-		for(Judge judge : Competition.getJudges()) {
+		for(Judge judge : competition.getJudges()) {
 			if(judge.isSpecial()) {
 				System.out.println(judge.getName());
 				break;
@@ -156,7 +155,7 @@ public class Application {
 	
 	public void printParticipantsInfo() {
 		for(Participant participant : participants) {
-			participantService.printInfo(participant);
+			participant.printInfo();
 		}
 	}
 	
@@ -170,7 +169,7 @@ public class Application {
 		for(Judge judge : judges) {
 			for(int i = 1; i <= judge.getMaxFavourites(); i++) {
 				int j = random.nextInt(participants.size());
-				judge.addFavourite(participants.get(j), stage);
+				stage.addFavourite(participants.get(j), judge);
 			}
 		}
 	}
@@ -191,15 +190,15 @@ public class Application {
 		stageService.qualifyParticipants(stage);
 	}
 	
-	public void checkForWinner(Stage stage) {
-		stage.checkForWinner();
-	}
-	
 	public void printQualifiedParticipants(Stage stage) {
 		System.out.println("Qualified participants:\n" + stage.getQualifiedParticipants() + "\n");
 	}
 	
 	public Set<Participant> getQualified(Stage stage) {
 		return stage.getQualifiedParticipants();
+	}
+	
+	public void checkForWinner(Stage stage) {
+		stage.checkForWinner();
 	}
 }

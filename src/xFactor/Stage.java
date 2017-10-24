@@ -13,11 +13,13 @@ public class Stage {
 	private Set<Participant> qualifiedParticipants = new HashSet<Participant>();
 	private Map<Judge, Set<Participant>> judgeFavourites = new HashMap<Judge, Set<Participant>>();
 	private ArrayList<Vote> votes = new ArrayList<Vote>();
+
+	private Competition competition = new Competition();
 	
 	public Stage(int stageNum, int max) throws IllegalArgumentException {
 		this.stageNumber = stageNum;
 		Competition.stageCountInstances++;
-		this.initializeInstance(stageNum, max);
+		this.initializeStage(stageNum, max);
 	}
 	
 	public int getStageNumber() {
@@ -32,7 +34,7 @@ public class Stage {
 		this.maxParticipants = maxParticipants;
 	}
 	
-	public Set<Participant> getParticipantsInStage() {		
+	public Set<Participant> getParticipantsInStage() {
 		return participantsInStage;
 	}
 	
@@ -66,18 +68,31 @@ public class Stage {
 		}
 	}
 	
-	public void initializeInstance(int stageNum, int max) {
+	public void initializeStage(int stageNum, int max) {
 		if(stageNum < 1 || stageNum > Competition.numberOfStages) {
 			throw new IllegalArgumentException("The number of stage must be between 1 and " + Competition.numberOfStages);
 		}
 		
-		if(Competition.stageCountInstances - 1 == Competition.numberOfStages) {
+		if(Competition.stageCountInstances - 1 == competition.getNumberOfStages()) {
 			throw new IllegalArgumentException("Maximum number of stages reached! Cannot create a new one.");
 		} else if(Competition.stageCountInstances == 1) {
-			this.setMaxParticipants(Competition.getParticipants().size());
-			this.getParticipantsInStage().addAll(Competition.getParticipants());
+			this.setMaxParticipants(competition.getParticipants().size());
+			this.getParticipantsInStage().addAll(competition.getParticipants());
 		} else {
 			this.setMaxParticipants(max);
+		}
+	}
+	
+	public void addFavourite(Participant participant, Judge judge) {
+		Set<Participant> favourites = new HashSet<Participant>();
+		favourites.add(participant);
+
+		if(this.getJudgeFavourites().get(judge) == null) {
+			this.getJudgeFavourites().put(judge, favourites);
+		} else if(this.getJudgeFavourites().get(judge).size() < judge.getMaxFavourites()) {
+			this.getJudgeFavourites().get(judge).add(participant);
+		} else {
+			System.out.println("Your list of favourites is full. Cannot add " + participant.getName() + ".");
 		}
 	}
 }

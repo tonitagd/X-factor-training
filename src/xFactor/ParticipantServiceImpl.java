@@ -1,9 +1,12 @@
 package xFactor;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ParticipantServiceImpl implements ParticipantService {
 	private StageServiceImpl stageService;
+	private Competition competition = new Competition();
+	
 	public ParticipantServiceImpl() {
 		stageService = new StageServiceImpl();
 	}
@@ -12,9 +15,10 @@ public class ParticipantServiceImpl implements ParticipantService {
 	public void printVotes(Participant participant, Stage stage) {
 		System.out.println("Judges who voted with \"YES\" for " + participant.getName() + ":");
 		
-		if(stageService.countVotes(stage).get(participant) == Competition.getJudgesSize()) {
+		Map<Participant, Integer> votes = stageService.countVotes(stage);
+		if(votes.get(participant) == competition.getJudgesSize()) {
 		   	System.out.println("Everybody.");
-		} else if(stageService.countVotes(stage).get(participant) != 0) {
+		} else if(votes.get(participant) != 0) {
 			for (Vote vote : stage.getVotes()) {
 				if(vote.getParticipant().equals(participant) && vote.getVote() == true) {
 					System.out.println(vote.getJudge());
@@ -27,13 +31,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	
 	@Override
 	public ArrayList<Participant> removeParticipant(Participant participant) {
-		Competition.getParticipants().remove(participant);
-		return Competition.getParticipants();
-	}
-	
-	@Override
-	public void printInfo(Participant participant) {
-		System.out.printf("Name: %s\nAge: %d\nGender: %s\nCity: %s\nQuality: %s\n\n",
-				participant.getName(), participant.getAge(), participant.getValue(), participant.getCity(), participant.getQualities());
+		competition.getParticipants().remove(participant);
+		return competition.getParticipants();
 	}
 }

@@ -6,16 +6,18 @@ public class Person {
 	private int age;
 	private String city;
 	private Gender value;
+	private int id;
 	enum Gender {
 		Male, Female
 	}
 	
-	public Person(String fName, String lName, int age, Gender gender, String city) {
+	public Person(String fName, String lName, int age, Gender gender, String city, int id) {
 		this.firstName = fName;
 		this.lastName = lName;
 		this.age = age;
 		this.value = gender;
 		this.city = city;
+		this.id = id;
 	}
 	
 	public String getFirstName() {
@@ -59,16 +61,18 @@ public class Person {
 		this.city = city;
 	}
 	
-	public void setValue(Gender e)
-    {
+	public void setValue(Gender e) {
         this.value = e; 
     }
 
-    public Gender getValue()
-    {
+    public Gender getValue() {
         return value;
     }
 
+	public int getId() {
+		return id;
+	}
+	
 	@Override
 	public String toString() {
 		return this.getName();

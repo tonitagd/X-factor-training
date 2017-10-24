@@ -2,7 +2,7 @@ package xFactor;
 
 import java.util.ArrayList;
 
-public abstract class Competition {
+public class Competition {
 	private static ArrayList<Judge> judges = new ArrayList<Judge>();
 	private static ArrayList<Participant> participants = new ArrayList<Participant>();
 	
@@ -12,15 +12,15 @@ public abstract class Competition {
 	public static int numberOfStages;
 	public static int stageCountInstances;
 	
-	public static ArrayList<Judge> getJudges() {
-		return Competition.judges;
+	public ArrayList<Judge> getJudges() {
+		return judges;
 	}
 	
-	public static int getJudgesSize() {
-		return Competition.judges.size();
+	public int getJudgesSize() {
+		return judges.size();
 	}
 
-	public static ArrayList<Participant> getParticipants() {
+	public ArrayList<Participant> getParticipants() {
 		return participants;
 	}
 	
@@ -28,15 +28,15 @@ public abstract class Competition {
 		return participants.size();
 	}
 	
-	public static int getNumberOfStages() {
+	public int getNumberOfStages() {
 		return numberOfStages;
 	}
 
-	public static void setNumberOfStages(int numberOfStages) {
+	public void setNumberOfStages(int numberOfStages) {
 		Competition.numberOfStages = numberOfStages;
 	}
 	
-	public static void printJudges() {
+	public void printJudges() {
 		for(int i = 0; i < getJudgesSize(); i++) {
 			System.out.println(getJudges().get(i));
 		}

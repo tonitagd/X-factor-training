@@ -25,6 +25,6 @@ public class Vote {
 	
 	@Override
 	public String toString() {
-		return this.participant.getName() + ": " + this.judge.getName() + ", " + this.vote;
+		return this.participant.getName() + ": " + this.judge.getName() + " - " + this.vote;
 	}
 }
