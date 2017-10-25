@@ -194,7 +194,7 @@ public class Application {
 		System.out.println("Qualified participants:\n" + stage.getQualifiedParticipants() + "\n");
 	}
 	
-	public Set<Participant> getQualified(Stage stage) {
+	public Set<Participant> getQualifiedParticipants(Stage stage) {
 		return stage.getQualifiedParticipants();
 	}
 	

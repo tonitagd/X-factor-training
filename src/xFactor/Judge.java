@@ -6,6 +6,8 @@ public class Judge extends Person {
 	
 	private Competition competition = new Competition();
 	
+	public Judge() {}
+	
 	public Judge(String fName, String lName, int age, Gender male, String birthPlace, int max, int id) {
 		super(fName, lName, age, male, birthPlace, id);
 		initializeJudge();
@@ -19,6 +21,10 @@ public class Judge extends Person {
 	
 	public int getMaxFavourites() {
 		return maxFavourites;
+	}
+	
+	public void setMaxFavourites(int maxFavourites) {
+		this.maxFavourites = maxFavourites;
 	}
 	
 	public boolean isSpecial() {

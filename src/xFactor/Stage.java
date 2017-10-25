@@ -16,6 +16,8 @@ public class Stage {
 
 	private Competition competition = new Competition();
 	
+	public Stage() {}
+	
 	public Stage(int stageNum, int max) throws IllegalArgumentException {
 		this.stageNumber = stageNum;
 		Competition.stageCountInstances++;
@@ -26,6 +28,10 @@ public class Stage {
 		return stageNumber;
 	}
 
+	public void setStageNumber(int stageNumber) {
+		this.stageNumber = stageNumber;
+	}
+	
 	public int getMaxParticipants() {
 		return maxParticipants;
 	}
@@ -46,26 +52,24 @@ public class Stage {
 		return qualifiedParticipants;
 	}
 
+	public void setQualifiedParticipants(Set<Participant> qualifiedParticipants) {
+		this.qualifiedParticipants = qualifiedParticipants;
+	}
+	
+	public Map<Judge, Set<Participant>> getJudgeFavourites() {
+		return judgeFavourites;
+	}
+
+	public void setJudgeFavourites(Map<Judge, Set<Participant>> judgeFavourites) {
+		this.judgeFavourites = judgeFavourites;
+	}
+
 	public ArrayList<Vote> getVotes() {
 		return votes;
 	}
 
 	public void setVotes(ArrayList<Vote> votes) {
 		this.votes = votes;
-	}
-	
-	public Map<Judge, Set<Participant>> getJudgeFavourites() {
-		return judgeFavourites;
-	}
-	
-	public void vote(Participant participant, boolean voteValue, Judge judge) {
-		this.getVotes().add(new Vote(participant, judge, voteValue));
-	}
-	
-	public void checkForWinner() {
-		if(this.getQualifiedParticipants().size() == 1) {
-			System.out.println("Winner of X-Factor is:" + "\n" + this.getQualifiedParticipants());
-		}
 	}
 	
 	public void initializeStage(int stageNum, int max) {
@@ -80,6 +84,16 @@ public class Stage {
 			this.getParticipantsInStage().addAll(competition.getParticipants());
 		} else {
 			this.setMaxParticipants(max);
+		}
+	}
+	
+	public void vote(Participant participant, boolean voteValue, Judge judge) {
+		this.getVotes().add(new Vote(participant, judge, voteValue));
+	}
+	
+	public void checkForWinner() {
+		if(this.getQualifiedParticipants().size() == 1) {
+			System.out.println("Winner of X-Factor is:" + "\n" + this.getQualifiedParticipants());
 		}
 	}
 	

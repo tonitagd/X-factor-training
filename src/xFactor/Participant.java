@@ -7,6 +7,8 @@ public class Participant extends Person {
 	
 	private Competition competition = new Competition();
 	
+	public Participant() {}
+	
 	public Participant(String fName, String lName, int age, Gender gender, String birthPlace, int id) {
 		super(fName, lName, age, gender, birthPlace, id);
 		initializeParticipant();
@@ -20,6 +22,10 @@ public class Participant extends Person {
 	
 	public ArrayList<String> getQualities() {
 		return qualities;
+	}
+	
+	public void setQualities(ArrayList<String> qualities) {
+		this.qualities = qualities;
 	}
 
 	public void addQuality(String quality) {

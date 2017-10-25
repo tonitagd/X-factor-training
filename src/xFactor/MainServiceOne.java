@@ -37,7 +37,7 @@ public class MainServiceOne {
 		app.checkForWinner(app.getStage(1));
 		
 		app.printQualifiedParticipants(app.getStage(1));
-		Set<Participant> participantsNext1 = app.getQualified(app.getStage(1));
+		Set<Participant> participantsNext1 = app.getQualifiedParticipants(app.getStage(1));
 		app.createStage(2, 10);
 		app.getStage(2).setParticipantsInStage(participantsNext1);
 		app.printParticipantsInStage(app.getStage(2));
@@ -47,7 +47,7 @@ public class MainServiceOne {
 		app.checkForWinner(app.getStage(2));
 		app.printQualifiedParticipants(app.getStage(2));
 		
-		Set<Participant> participantsNext2 = app.getQualified(app.getStage(2));
+		Set<Participant> participantsNext2 = app.getQualifiedParticipants(app.getStage(2));
 		app.createStage(3, 10);
 		app.getStage(3).setParticipantsInStage(participantsNext2);
 		app.printParticipantsInStage(app.getStage(3));

@@ -11,6 +11,8 @@ public class Person {
 		Male, Female
 	}
 	
+	public Person() {}
+	
 	public Person(String fName, String lName, int age, Gender gender, String city, int id) {
 		this.firstName = fName;
 		this.lastName = lName;
@@ -61,16 +63,20 @@ public class Person {
 		this.city = city;
 	}
 	
+	public Gender getValue() {
+        return value;
+    }
+	
 	public void setValue(Gender e) {
         this.value = e; 
     }
 
-    public Gender getValue() {
-        return value;
-    }
-
 	public int getId() {
 		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	@Override
