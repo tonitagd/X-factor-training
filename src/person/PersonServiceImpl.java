@@ -1,4 +1,4 @@
-package xFactor;
+package person;
 
 public class PersonServiceImpl {
 	public void printInfo(Person person) {

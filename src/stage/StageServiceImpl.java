@@ -1,27 +1,30 @@
-package xFactor;
+package stage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class StageServiceImpl implements StageService {
-	private Competition competition = new Competition();
-	
+import judge.Judge;
+import participant.Participant;
+import vote.Vote;
+
+public class StageServiceImpl implements StageService {	
 	@Override
-	public Set<Participant> qualifyParticipants(Stage stage) {
-		double halfJudgeSize = competition.getJudgesSize() / 2;
+	public Set<Participant> qualifyParticipants(Stage stage, ArrayList<Judge> judges) {		
+		double halfJudgeSize = judges.size() / 2;
 		Map<Participant, Integer> helper = countVotes(stage);
-		Set<Participant> qualified = stage.getQualifiedParticipants();
+		Set<Participant> qualifiedParticipants = stage.getQualifiedParticipants();
 		
 		for (Map.Entry<Participant, Integer> entry : helper.entrySet()) {
 			int value = entry.getValue();
 			Participant key = entry.getKey();
 		    if(value > halfJudgeSize) {
-		    	qualified.add(key);
+		    	qualifiedParticipants.add(key);
 		    } else if(value == halfJudgeSize) {
 		    	for(Vote vote : stage.getVotes()) {
 					if(vote.getParticipant() == key && vote.getJudge().isSpecial()) {
-						qualified.add(key);
+						qualifiedParticipants.add(key);
 						break;
 					}
 				}
@@ -30,11 +33,11 @@ public class StageServiceImpl implements StageService {
 		
 		for(Map.Entry<Judge, Set<Participant>> entry : stage.getJudgeFavourites().entrySet()) {			
 			for(Participant participant : entry.getValue()) {
-				qualified.add(participant);
+				qualifiedParticipants.add(participant);
 			}
 		}
 		
-		return qualified;
+		return qualifiedParticipants;
 	}
 	
 	public Map<Participant, Integer> countVotes(Stage stage) {
@@ -43,14 +46,15 @@ public class StageServiceImpl implements StageService {
 		for(Vote vote : stage.getVotes()) {
 			if(map.get(vote.getParticipant()) == null) {
 				count = 0;
-				if(vote.getVote() == false){
+				if(vote.getVote() == false) {
 					map.put(vote.getParticipant(), count);
 				} else {
 					map.put(vote.getParticipant(), ++count);
 				}
 			} else {
 				if(vote.getVote() == true) {
-					map.put(vote.getParticipant(), ++count);
+					int currentValue = map.get(vote.getParticipant());
+					map.put(vote.getParticipant(), ++currentValue);
 				}
 			}
 		}

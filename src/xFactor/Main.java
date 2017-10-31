@@ -10,7 +10,7 @@ public class Main {
 		
 		do {
 			System.out.println("Hi there!" + "\n" + "This is X-Factor!" + "\n" + "Please choose one of the options below:" + "\n"
-					+ "1 - 4 Judges, 15 Participants, 5 Stages" + "\n"
+					+ "1 - 4 Judges, 15 Participants, 3 Stages" + "\n"
 					+ "2 - 3 Judges, 8 Participants, 3 Stages"  + "\n"
 					+ "To exit, press 0.");
 			
@@ -19,18 +19,18 @@ public class Main {
 		
 		scan.close();
 		
+		DataGenerator generator = new DataGenerator();
+		
 		switch(input) {
 		case 1:
-			System.out.println("4 Judges, 15 Participants, 5 Stages" + "\n");
+			System.out.println("4 Judges, 15 Participants, 3 Stages" + "\n");
 			
-			MainServiceOne one = new MainServiceOne();
-			one.doOptionOne();
+			generator.fillData(3, 4, 15, 2);
 			break;
 		case 2:
 			System.out.println("3 Judges, 8 Participants, 3 Stages" + "\n");
 			
-			MainServiceTwo two = new MainServiceTwo();
-			two.doOptionTwo();
+			generator.fillData(3, 3, 8, -1);
 			break;
 		case 0:
 			System.out.println("Exiting...");

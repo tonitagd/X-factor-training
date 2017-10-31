@@ -4,46 +4,43 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
-import xFactor.Person.Gender;
+import judge.Judge;
+import participant.Participant;
+import person.PersonServiceImpl;
+import person.Person.Gender;
+import stage.Stage;
+import stage.StageServiceImpl;
 
 public class Application {
 	private ArrayList<Judge> allJudges;
 	private ArrayList<Judge> judges;
 	private ArrayList<Participant> allParticipants;
 	private ArrayList<Participant> participants;
-	private Stage[] allStages;
+	private ArrayList<Stage> allStages = new ArrayList<Stage>();;
 	private ArrayList<String> qualities;
+	
+	private int numberOfStages;
 	
 	private PersonServiceImpl personService = new PersonServiceImpl();
 	private StageServiceImpl stageService = new StageServiceImpl();
-	private Competition competition = new Competition();
 			
 	private Random random = new Random();
-	
-	public Stage getStage(int stageNum) {
-		return allStages[stageNum - 1];
+
+	public int getNumberOfStages() {
+		return numberOfStages;
+	}
+
+	public void setNumberOfStages(int numberOfStages) {
+		this.numberOfStages = numberOfStages;
 	}
 	
-	private void addStages() {
-		allStages = new Stage[8];
-		
-		Stage stage1 = null;
-		Stage stage2 = null;
-		Stage stage3 = null;
-		Stage stage4 = null;
-		Stage stage5 = null;
-		Stage stage6 = null;
-		Stage stage7 = null;
-		Stage stage8 = null;
-		
-		allStages[0] = stage1;
-		allStages[1] = stage2;
-		allStages[2] = stage3;
-		allStages[3] = stage4;
-		allStages[4] = stage5;
-		allStages[5] = stage6;
-		allStages[6] = stage7;
-		allStages[7] = stage8;
+	public Stage getStage(int stageNum) {
+		for(Stage stage : allStages) {
+			if(stage.getStageNumber() == stageNum) {
+				return stage;
+			}
+		}
+		return new Stage();
 	}
 	
 	private void addJudges(){
@@ -102,6 +99,21 @@ public class Application {
 		qualities.add("Playing the drums");
 	}
 	
+	private void initializeStage(int stageNum, int max, Stage stage) {
+		if(stageNum < 1 || stageNum > numberOfStages) {
+			throw new IllegalArgumentException("The number of stage must be between 1 and " + numberOfStages);
+		}
+		
+		if(allStages.size() - 1 == numberOfStages) {
+			throw new IllegalArgumentException("Maximum number of stages reached! Cannot create a new one.");
+		} else if(allStages.size() == 1) {
+			stage.setMaxParticipants(allParticipants.size());
+			stage.getParticipantsInStage().addAll(participants);
+		} else {
+			stage.setMaxParticipants(max);
+		}
+	}
+	
 	public void createJudges(int number) {
 		judges = new ArrayList<Judge>();
 		addJudges();
@@ -109,23 +121,42 @@ public class Application {
 			judges.add(allJudges.get(i));
 		}
 	}
+
+	public ArrayList<Judge> getJudges() {
+		return judges;
+	}
+
+	public void setJudges(ArrayList<Judge> judges) {
+		this.judges = judges;
+	}
+	
+	public int getJudgesSize() {
+		return judges.size();
+	}
 	
 	public void giveSpecialVote(int id) {
-		for(Judge judge : competition.getJudges()) {
-			if(judge.getId() == id) {
-				judge.setSpecial(true);
+		if(id > 0 && id < judges.size()) {
+			for(Judge judge : judges) {
+				if(judge.getId() == id) {
+					judge.setSpecial(true);
+				}
 			}
 		}
 	}
 	
 	public void printSpecialJudge() {
-		for(Judge judge : competition.getJudges()) {
+		for(Judge judge : judges) {
 			if(judge.isSpecial()) {
 				System.out.println(judge.getName());
 				break;
 			}
 		}
-		
+	}
+	
+	public void printJudges() {
+		for(Judge judge : judges) {
+			System.out.println(judge);
+		}
 	}
 	
 	public void createParticipants(int number) {
@@ -137,8 +168,9 @@ public class Application {
 	}
 	
 	public void createStage(int stageNum, int max) {
-		addStages();
-		allStages[stageNum - 1] = new Stage(stageNum, max);
+		Stage stage = new Stage(stageNum, max);
+		allStages.add(stage);
+		initializeStage(stageNum, max, stage);
 	}
 	
 	public void printParticipantsInStage(Stage stage) {
@@ -186,8 +218,8 @@ public class Application {
 		}
 	}
 	
-	public void qualifyParticipants(Stage stage) {
-		stageService.qualifyParticipants(stage);
+	public void qualifyParticipants(Stage stage, ArrayList<Judge> judges) {
+		stageService.qualifyParticipants(stage, judges);
 	}
 	
 	public void printQualifiedParticipants(Stage stage) {

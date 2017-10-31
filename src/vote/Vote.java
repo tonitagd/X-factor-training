@@ -1,4 +1,7 @@
-package xFactor;
+package vote;
+
+import judge.Judge;
+import participant.Participant;
 
 public class Vote {
 	private Participant participant;

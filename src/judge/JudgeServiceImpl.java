@@ -1,7 +1,10 @@
-package xFactor;
+package judge;
 
 import java.util.Map;
 import java.util.Set;
+
+import participant.Participant;
+import stage.Stage;
 
 public class JudgeServiceImpl implements JudgeService {
 	@Override

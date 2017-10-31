@@ -1,5 +1,10 @@
-package xFactor;
+package person;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Person {
 	private String firstName;
 	private String lastName;
@@ -7,7 +12,7 @@ public class Person {
 	private String city;
 	private Gender value;
 	private int id;
-	enum Gender {
+	public enum Gender {
 		Male, Female
 	}
 	
@@ -71,6 +76,8 @@ public class Person {
         this.value = e; 
     }
 
+	@Id
+	@GeneratedValue
 	public int getId() {
 		return id;
 	}

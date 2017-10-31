@@ -1,10 +1,14 @@
-package xFactor;
+package stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import judge.Judge;
+import participant.Participant;
+import vote.Vote;
 
 public class Stage {
 	private int stageNumber;
@@ -13,15 +17,11 @@ public class Stage {
 	private Set<Participant> qualifiedParticipants = new HashSet<Participant>();
 	private Map<Judge, Set<Participant>> judgeFavourites = new HashMap<Judge, Set<Participant>>();
 	private ArrayList<Vote> votes = new ArrayList<Vote>();
-
-	private Competition competition = new Competition();
 	
 	public Stage() {}
 	
 	public Stage(int stageNum, int max) throws IllegalArgumentException {
 		this.stageNumber = stageNum;
-		Competition.stageCountInstances++;
-		this.initializeStage(stageNum, max);
 	}
 	
 	public int getStageNumber() {
@@ -70,21 +70,6 @@ public class Stage {
 
 	public void setVotes(ArrayList<Vote> votes) {
 		this.votes = votes;
-	}
-	
-	public void initializeStage(int stageNum, int max) {
-		if(stageNum < 1 || stageNum > Competition.numberOfStages) {
-			throw new IllegalArgumentException("The number of stage must be between 1 and " + Competition.numberOfStages);
-		}
-		
-		if(Competition.stageCountInstances - 1 == competition.getNumberOfStages()) {
-			throw new IllegalArgumentException("Maximum number of stages reached! Cannot create a new one.");
-		} else if(Competition.stageCountInstances == 1) {
-			this.setMaxParticipants(competition.getParticipants().size());
-			this.getParticipantsInStage().addAll(competition.getParticipants());
-		} else {
-			this.setMaxParticipants(max);
-		}
 	}
 	
 	public void vote(Participant participant, boolean voteValue, Judge judge) {
