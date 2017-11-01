@@ -1,32 +1,58 @@
-package person;
+package xFactor.infrastructure.model;
 
-import javax.persistence.Entity;
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
-@Entity
-public class Person {
-	private String firstName;
-	private String lastName;
-	private int age;
-	private String city;
-	private Gender value;
+@MappedSuperclass
+public abstract class Person implements Serializable {
+
+	private static final long serialVersionUID = 8024592318895271883L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	@Column(name="first_name")
+	private String firstName;
+	@Column(name="last_name")
+	private String lastName;
+	@Column
+	private int age;
+	@Column
+	private String city;
+	@Column
+	private Gender gender;
+
 	public enum Gender {
 		Male, Female
 	}
-	
-	public Person() {}
-	
+
+	public Person() {
+	}
+
 	public Person(String fName, String lName, int age, Gender gender, String city, int id) {
 		this.firstName = fName;
 		this.lastName = lName;
 		this.age = age;
-		this.value = gender;
+		this.gender = gender;
 		this.city = city;
 		this.id = id;
 	}
-	
+
+	public String getName() {
+		return firstName + " " + lastName;
+	}
+
+	public void setName(String fName, String lName) {
+		this.firstName = fName;
+		this.lastName = lName;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -42,20 +68,11 @@ public class Person {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
-	public String getName() {
-		return firstName + " " + lastName;
-	}
-	
-	public void setName(String fName, String lName) {
-		this.firstName = fName;
-		this.lastName = lName;
-	}
-	
+
 	public int getAge() {
 		return age;
 	}
-	
+
 	public void setAge(int age) {
 		this.age = age;
 	}
@@ -63,29 +80,27 @@ public class Person {
 	public String getCity() {
 		return city;
 	}
-	
+
 	public void setCity(String city) {
 		this.city = city;
 	}
-	
-	public Gender getValue() {
-        return value;
-    }
-	
-	public void setValue(Gender e) {
-        this.value = e; 
-    }
 
-	@Id
-	@GeneratedValue
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender value) {
+		this.gender = value;
+	}
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.getName();
