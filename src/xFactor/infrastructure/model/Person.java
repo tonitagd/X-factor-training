@@ -3,9 +3,6 @@ package xFactor.infrastructure.model;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
@@ -13,13 +10,9 @@ public abstract class Person implements Serializable {
 
 	private static final long serialVersionUID = 8024592318895271883L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-
-	@Column(name="first_name")
+	@Column(name = "first_name")
 	private String firstName;
-	@Column(name="last_name")
+	@Column(name = "last_name")
 	private String lastName;
 	@Column
 	private int age;
@@ -35,13 +28,12 @@ public abstract class Person implements Serializable {
 	public Person() {
 	}
 
-	public Person(String fName, String lName, int age, Gender gender, String city, int id) {
+	public Person(String fName, String lName, int age, Gender gender, String city) {
 		this.firstName = fName;
 		this.lastName = lName;
 		this.age = age;
 		this.gender = gender;
 		this.city = city;
-		this.id = id;
 	}
 
 	public String getName() {
@@ -93,16 +85,52 @@ public abstract class Person implements Serializable {
 		this.gender = value;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	@Override
 	public String toString() {
 		return this.getName();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + age;
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Person other = (Person) obj;
+		if (age != other.age)
+			return false;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (gender != other.gender)
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		return true;
+	}
+
 }

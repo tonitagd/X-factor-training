@@ -4,10 +4,17 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
+import xFactor.infrastructure.dao.JudgeDao;
+import xFactor.infrastructure.dao.JudgeFavouriteDao;
+import xFactor.infrastructure.dao.ParticipantDao;
+import xFactor.infrastructure.dao.StageDao;
+import xFactor.infrastructure.dao.VoteDao;
 import xFactor.infrastructure.model.Judge;
+import xFactor.infrastructure.model.JudgeFavourite;
 import xFactor.infrastructure.model.Participant;
-import xFactor.infrastructure.model.Stage;
 import xFactor.infrastructure.model.Person.Gender;
+import xFactor.infrastructure.model.Stage;
+import xFactor.infrastructure.model.Vote;
 import xFactor.service.impl.PersonServiceImpl;
 import xFactor.service.impl.StageServiceImpl;
 
@@ -26,6 +33,12 @@ public class Application {
 
 	private Random random = new Random();
 
+	private ParticipantDao participantDao;
+	private JudgeDao judgeDao;
+	private StageDao stageDao;
+	private VoteDao voteDao;
+	private JudgeFavouriteDao judgeFavouriteDao;
+	
 	public int getNumberOfStages() {
 		return numberOfStages;
 	}
@@ -45,29 +58,29 @@ public class Application {
 
 	private void addJudges() {
 		allJudges = new ArrayList<Judge>();
-		allJudges.add(new Judge("Martin", "Momov", 36, Gender.Male, "Sofia", 3, 1));
-		allJudges.add(new Judge("Elena", "Marinova", 36, Gender.Female, "Sofia", 3, 2));
-		allJudges.add(new Judge("Delyan", "Lilov", 36, Gender.Male, "Sofia", 3, 3));
-		allJudges.add(new Judge("Stanislav", "Ovcharov", 36, Gender.Male, "Sofia", 3, 4));
+		allJudges.add(new Judge("Martin", "Momov", 36, Gender.Male, "Sofia", 3));
+		allJudges.add(new Judge("Elena", "Marinova", 36, Gender.Female, "Sofia", 3));
+		allJudges.add(new Judge("Delyan", "Lilov", 36, Gender.Male, "Sofia", 3));
+		allJudges.add(new Judge("Stanislav", "Ovcharov", 36, Gender.Male, "Sofia", 3));
 	}
 
 	private void addParticipants() {
 		allParticipants = new ArrayList<Participant>();
-		allParticipants.add(new Participant("Velina", "Kraeva", 25, Gender.Female, "Plovdiv", 11));
-		allParticipants.add(new Participant("Doroteya", "Mitova", 25, Gender.Female, "Varna", 12));
-		allParticipants.add(new Participant("Veliko", "Velichkov", 25, Gender.Male, "Petrich", 13));
-		allParticipants.add(new Participant("Elizabet", "Pavlova", 25, Gender.Female, "Sofia", 14));
-		allParticipants.add(new Participant("Yana", "Koleva", 25, Gender.Female, "Plovdiv", 15));
-		allParticipants.add(new Participant("Lachezar", "Balabanov", 25, Gender.Male, "Varna", 16));
-		allParticipants.add(new Participant("Martin", "Grigorov", 25, Gender.Male, "Sofia", 17));
-		allParticipants.add(new Participant("Nataliya", "Vasileva", 25, Gender.Female, "Burgas", 18));
-		allParticipants.add(new Participant("Desislava", "Petkova", 25, Gender.Female, "Vraca", 19));
-		allParticipants.add(new Participant("Yasen", "Gurvanov", 25, Gender.Male, "Blagoevgrad", 20));
-		allParticipants.add(new Participant("Grudi", "Radev", 25, Gender.Male, "Stara Zagora", 21));
-		allParticipants.add(new Participant("Dilyana", "Stolarova", 25, Gender.Female, "Varna", 22));
-		allParticipants.add(new Participant("Toni", "Ilieva", 25, Gender.Female, "Troyan", 23));
-		allParticipants.add(new Participant("Zdravko", "Kostadinov", 25, Gender.Male, "Sofia", 24));
-		allParticipants.add(new Participant("Kristiyan", "Srebrev", 25, Gender.Male, "Purvomay", 25));
+		allParticipants.add(new Participant("Velina", "Kraeva", 25, Gender.Female, "Plovdiv"));
+		allParticipants.add(new Participant("Doroteya", "Mitova", 25, Gender.Female, "Kyustendil"));
+		allParticipants.add(new Participant("Veliko", "Velichkov", 25, Gender.Male, "Petrich"));
+		allParticipants.add(new Participant("Elizabet", "Pavlova", 25, Gender.Female, "Sofia"));
+		allParticipants.add(new Participant("Yana", "Koleva", 25, Gender.Female, "Plovdiv"));
+		allParticipants.add(new Participant("Lachezar", "Balabanov", 25, Gender.Male, "Varna"));
+		allParticipants.add(new Participant("Martin", "Grigorov", 25, Gender.Male, "Sofia"));
+		allParticipants.add(new Participant("Nataliya", "Vasileva", 25, Gender.Female, "Burgas"));
+		allParticipants.add(new Participant("Nayden", "Nikolov", 25, Gender.Male, "Varna"));
+		allParticipants.add(new Participant("Yasen", "Gurvanov", 25, Gender.Male, "Blagoevgrad"));
+		allParticipants.add(new Participant("Grudi", "Radev", 25, Gender.Male, "Stara Zagora"));
+		allParticipants.add(new Participant("Dilyana", "Stolarova", 25, Gender.Female, "Varna"));
+		allParticipants.add(new Participant("Toni", "Ilieva", 25, Gender.Female, "Troyan"));
+		allParticipants.add(new Participant("Zdravko", "Kostadinov", 25, Gender.Male, "Sofia"));
+		allParticipants.add(new Participant("Kristiyan", "Srebrev", 25, Gender.Male, "Purvomay"));
 	}
 
 	private void fillQualities() {
@@ -101,6 +114,10 @@ public class Application {
 		for (int i = 0; i < number; i++) {
 			judges.add(allJudges.get(i));
 		}
+		judgeDao = new JudgeDao();
+		for (int i = 0; i < judges.size(); i++) {
+			judgeDao.save(judges.get(i));
+		}
 	}
 
 	public ArrayList<Judge> getJudges() {
@@ -118,8 +135,9 @@ public class Application {
 	public void giveSpecialVote(int id) {
 		if (id > 0 && id < judges.size()) {
 			for (Judge judge : judges) {
-				if (judge.getId() == id) {
+				if (judge.getJudgeId() == id) {
 					judge.setSpecial(true);
+					judgeDao.update(judge);
 				}
 			}
 		}
@@ -146,12 +164,18 @@ public class Application {
 		for (int i = 0; i < number; i++) {
 			participants.add(allParticipants.get(i));
 		}
+		participantDao = new ParticipantDao();
+		for (int i = 0; i < participants.size(); i++) {
+			participantDao.save(participants.get(i));
+		}
 	}
 
 	public void createStage(int stageNum, int max) {
 		Stage stage = new Stage(stageNum, max);
 		allStages.add(stage);
 		initializeStage(stageNum, max, stage);
+		stageDao = new StageDao();
+		stageDao.save(stage);
 	}
 
 	public void printParticipantsInStage(Stage stage) {
@@ -163,6 +187,7 @@ public class Application {
 		for (Participant participant : participants) {
 			int i = random.nextInt(qualities.size() - 1);
 			participant.addQuality(qualities.get(i));
+			participantDao.update(participant);
 		}
 	}
 
@@ -179,28 +204,35 @@ public class Application {
 	}
 
 	public void addJudgesFavourites(Stage stage) {
+		judgeFavouriteDao = new JudgeFavouriteDao();
 		for (Judge judge : judges) {
 			for (int i = 1; i <= judge.getMaxFavourites(); i++) {
-				int j = random.nextInt(participants.size());
-				stage.addFavourite(participants.get(j), judge);
+				int rand = random.nextInt(participants.size());
+				Participant participant = participants.get(rand);
+				stage.addFavourite(participant, judge);
+				stageDao.update(stage);
+				judgeFavouriteDao.save(new JudgeFavourite(participant, judge));
 			}
 		}
 	}
 
 	public void printFavourites(Stage stage) {
-		System.out.println(stage.getJudgeFavourites());
+		System.out.println("favourites: " + stage.getJudgeFavourites());
 	}
 
 	public void judgesVote(Stage stage) {
+		voteDao = new VoteDao();
 		for (Participant participant : stage.getParticipantsInStage()) {
 			for (Judge judge : judges) {
-				stage.vote(participant, random.nextBoolean(), judge);
+				Vote vote = stage.vote(judge, participant, random.nextBoolean());
+				voteDao.save(vote);
 			}
 		}
 	}
 
 	public void qualifyParticipants(Stage stage, ArrayList<Judge> judges) {
 		stageService.qualifyParticipants(stage, judges);
+		stageDao.update(stage);
 	}
 
 	public void printQualifiedParticipants(Stage stage) {
@@ -213,5 +245,13 @@ public class Application {
 
 	public void checkForWinner(Stage stage) {
 		stage.checkForWinner();
+	}
+	
+	public void closeSessions() {
+		stageDao.closeSession();
+		participantDao.closeSession();
+		judgeDao.closeSession();
+		judgeFavouriteDao.closeSession();
+		voteDao.closeSession();
 	}
 }

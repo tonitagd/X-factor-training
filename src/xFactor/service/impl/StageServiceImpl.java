@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import xFactor.infrastructure.model.Judge;
+import xFactor.infrastructure.model.JudgeFavourite;
 import xFactor.infrastructure.model.Participant;
 import xFactor.infrastructure.model.Stage;
 import xFactor.infrastructure.model.Vote;
@@ -33,10 +34,8 @@ public class StageServiceImpl implements StageService {
 			}
 		}
 
-		for (Map.Entry<Judge, Set<Participant>> entry : stage.getJudgeFavourites().entrySet()) {
-			for (Participant participant : entry.getValue()) {
-				qualifiedParticipants.add(participant);
-			}
+		for (JudgeFavourite fav : stage.getJudgeFavourites()) {
+			qualifiedParticipants.addAll(fav.getFavourites());
 		}
 
 		return qualifiedParticipants;

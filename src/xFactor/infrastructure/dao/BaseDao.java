@@ -8,48 +8,57 @@ import org.hibernate.cfg.Configuration;
 
 import xFactor.infrastructure.model.Stage;
 import xFactor.infrastructure.model.Judge;
+import xFactor.infrastructure.model.JudgeFavourite;
 import xFactor.infrastructure.model.Participant;
 import xFactor.infrastructure.model.Vote;
 
 public abstract class BaseDao {
 
-	private Session session;
+	private static Session session;
 
-	private SessionFactory sessionFactory;
-
-	public BaseDao() {
-		this.sessionFactory = new Configuration()
+	private static SessionFactory sessionFactory;
+	
+	static {
+		sessionFactory = new Configuration()
 				.addProperties(getProperties())
 				.addPackage("xFactor.infrastructure.model")
 				.addAnnotatedClass(Participant.class)
 				.addAnnotatedClass(Judge.class)
 				.addAnnotatedClass(Stage.class)
 				.addAnnotatedClass(Vote.class)
+				.addAnnotatedClass(JudgeFavourite.class)
 				.buildSessionFactory();
-		this.session = sessionFactory.openSession();
+		session = sessionFactory.openSession();
 	}
-	
-	private Properties getProperties() {
+
+	public BaseDao() {
+	}
+
+	private static Properties getProperties() {
 		Properties prop = new Properties();
-		
+
 		prop.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
 		prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-		
+
 		prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/x-factor");
 		prop.setProperty("hibernate.default_schema", "x-factor");
 		prop.setProperty("hibernate.connection.username", "root");
 		prop.setProperty("hibernate.connection.password", "root");
-		
+
 		prop.setProperty("hibernate.connection.pool_size", "5");
-		
+
 		prop.setProperty("hibernate.show_sql", "true");
-		prop.setProperty("hibernate.hbm2ddl.auto", "update");
-		
+		prop.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+
 		return prop;
 	}
 
-	public Session getSession(){
+	public Session getSession() {
 		return session;
+	}
+
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
 	}
 
 	public void closeSession() {

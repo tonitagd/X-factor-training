@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
@@ -13,15 +16,27 @@ public class Participant extends Person {
 
 	private static final long serialVersionUID = 2745731738707326330L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int participantId;
+
 	@ElementCollection
 	private List<String> qualities = new ArrayList<String>();
 
 	public Participant() {
 	}
 
-	public Participant(String fName, String lName, int age, Gender gender, String birthPlace, int id) {
-		super(fName, lName, age, gender, birthPlace, id);
+	public Participant(String fName, String lName, int age, Gender gender, String birthPlace) {
+		super(fName, lName, age, gender, birthPlace);
 		qualities.add("Singing");
+	}
+
+	public int getParticipantId() {
+		return participantId;
+	}
+
+	public void setParticipantId(int participantId) {
+		this.participantId = participantId;
 	}
 
 	public List<String> getQualities() {

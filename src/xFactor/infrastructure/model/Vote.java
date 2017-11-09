@@ -1,31 +1,45 @@
 package xFactor.infrastructure.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "votes")
-public class Vote {
+public class Vote implements Serializable {
+
+	private static final long serialVersionUID = -837755725884857316L;
+
 	@Id
-	@GeneratedValue
-	private int id;
-	@Column
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int voteId;
+	@ManyToOne
+	@JoinColumn(name = "participantId")
 	private Participant participant;
-	@Column
+	@ManyToOne
+	@JoinColumn(name = "judgeId")
 	private Judge judge;
 	@Column
 	private boolean vote;
+	@ManyToOne
+	@JoinColumn(name = "stageId")
+	private Stage stage;
 
 	public Vote() {
 	}
 
-	public Vote(Participant participant, Judge judge, boolean vote) {
+	public Vote(Participant participant, Judge judge, boolean vote, Stage stage) {
 		this.participant = participant;
 		this.judge = judge;
 		this.vote = vote;
+		this.stage = stage;
 	}
 
 	public Participant getParticipant() {
@@ -50,6 +64,22 @@ public class Vote {
 
 	public void setVote(boolean vote) {
 		this.vote = vote;
+	}
+
+	public int getVoteId() {
+		return voteId;
+	}
+
+	public void setVoteId(int voteId) {
+		this.voteId = voteId;
+	}
+
+	public Stage getStage() {
+		return stage;
+	}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
 	}
 
 	@Override

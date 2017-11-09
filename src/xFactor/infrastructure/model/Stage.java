@@ -1,39 +1,68 @@
 package xFactor.infrastructure.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "stages")
-public class Stage {
+public class Stage implements Serializable {
+
+	private static final long serialVersionUID = 4720828404954251575L;
+
 	@Id
-	@Column
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int stageId;
+	@Column(name = "stage_number", nullable = false, unique = true)
 	private int stageNumber;
-	@Column
+	@Column(name = "max_participants", nullable = false)
 	private int maxParticipants;
-	@ElementCollection
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "participants_in_stage")
+	@JoinColumns({ @JoinColumn(name = "stageId", insertable = false, updatable = false),
+			@JoinColumn(name = "participantId", insertable = false, updatable = false) })
 	private Set<Participant> participantsInStage = new HashSet<Participant>();
-	@ElementCollection
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "stage_qualified_participants")
+	@JoinColumns({ @JoinColumn(name = "stageId", insertable = false, updatable = false),
+			@JoinColumn(name = "participantId", insertable = false, updatable = false) })
 	private Set<Participant> qualifiedParticipants = new HashSet<Participant>();
-	
-	private Map<Judge, Set<Participant>> judgeFavourites = new HashMap<Judge, Set<Participant>>();
-	@ElementCollection
+	@ManyToMany(targetEntity = JudgeFavourite.class, cascade = CascadeType.ALL)
+	@JoinTable(name = "stage_favourite_participants")
+	@JoinColumns({ @JoinColumn(name = "stageId", insertable = true, updatable = true),
+			@JoinColumn(name = "judgeFavouriteId", insertable = true, updatable = true) })
+	private List<JudgeFavourite> judgeFavourites = new ArrayList<JudgeFavourite>();
+	@OneToMany
 	private List<Vote> votes = new ArrayList<Vote>();
 
-	public Stage() {}
+	public Stage() {
+	}
 
 	public Stage(int stageNum, int max) throws IllegalArgumentException {
 		this.stageNumber = stageNum;
+	}
+
+	public int getStageId() {
+		return stageId;
+	}
+
+	public void setStageId(int stageId) {
+		this.stageId = stageId;
 	}
 
 	public int getStageNumber() {
@@ -68,11 +97,11 @@ public class Stage {
 		this.qualifiedParticipants = qualifiedParticipants;
 	}
 
-	public Map<Judge, Set<Participant>> getJudgeFavourites() {
+	public List<JudgeFavourite> getJudgeFavourites() {
 		return judgeFavourites;
 	}
 
-	public void setJudgeFavourites(Map<Judge, Set<Participant>> judgeFavourites) {
+	public void setJudgeFavourites(List<JudgeFavourite> judgeFavourites) {
 		this.judgeFavourites = judgeFavourites;
 	}
 
@@ -84,8 +113,10 @@ public class Stage {
 		this.votes = votes;
 	}
 
-	public void vote(Participant participant, boolean voteValue, Judge judge) {
-		this.getVotes().add(new Vote(participant, judge, voteValue));
+	public Vote vote(Judge judge, Participant participant, boolean voteValue) {
+		Vote vote = new Vote(participant, judge, voteValue, this);
+		this.getVotes().add(vote);
+		return vote;
 	}
 
 	public void checkForWinner() {
@@ -95,15 +126,19 @@ public class Stage {
 	}
 
 	public void addFavourite(Participant participant, Judge judge) {
-		Set<Participant> favourites = new HashSet<Participant>();
-		favourites.add(participant);
+		for (JudgeFavourite judgeFavourite : judgeFavourites) {
+			Judge favouritesJudge = judgeFavourite.getJudge();
+			Set<Participant> favourites = judgeFavourite.getFavourites();
 
-		if (this.getJudgeFavourites().get(judge) == null) {
-			this.getJudgeFavourites().put(judge, favourites);
-		} else if (this.getJudgeFavourites().get(judge).size() < judge.getMaxFavourites()) {
-			this.getJudgeFavourites().get(judge).add(participant);
-		} else {
-			System.out.println("Your list of favourites is full. Cannot add " + participant.getName() + ".");
+			if (favouritesJudge.equals(judge)) {
+				if (favourites.size() >= judge.getMaxFavourites()) {
+					System.out.println("Your list of favourites is full. Cannot add " + participant.getName() + ".");
+					return;
+				}
+				judgeFavourite.getFavourites().add(participant);
+				return;
+			}
 		}
+		judgeFavourites.add(new JudgeFavourite(participant, judge));
 	}
 }

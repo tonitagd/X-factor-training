@@ -3,9 +3,11 @@
  * */
 package xFactor.base;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import xFactor.infrastructure.model.Participant;
+import xFactor.infrastructure.model.Stage;
 
 public class DataGenerator {
 	Application app = new Application();
@@ -32,7 +34,8 @@ public class DataGenerator {
 		System.out.println("Information about judges:");
 		app.printJudgesInfo();
 
-		app.addJudgesFavourites(app.getStage(1));
+		Stage stage = app.getStage(1);
+		app.addJudgesFavourites(stage);
 		app.printFavourites(app.getStage(1));
 
 		app.printParticipantsInStage(app.getStage(1));
@@ -44,17 +47,21 @@ public class DataGenerator {
 		app.printQualifiedParticipants(app.getStage(1));
 		Set<Participant> participantsNext1 = app.getQualifiedParticipants(app.getStage(1));
 		app.createStage(2, 10);
-		app.getStage(2).setParticipantsInStage(participantsNext1);
-		app.printParticipantsInStage(app.getStage(2));
+		Stage stage2 = app.getStage(2);
+		stage2.setParticipantsInStage(new HashSet<>());
+		stage2.getParticipantsInStage().addAll(participantsNext1);
+		app.printParticipantsInStage(stage2);
 
-		app.judgesVote(app.getStage(2));
-		app.qualifyParticipants(app.getStage(2), app.getJudges());
-		app.checkForWinner(app.getStage(2));
-		app.printQualifiedParticipants(app.getStage(2));
+		app.judgesVote(stage2);
+		app.qualifyParticipants(stage2, app.getJudges());
+		app.checkForWinner(stage2);
+		app.printQualifiedParticipants(stage2);
 
-		Set<Participant> participantsNext2 = app.getQualifiedParticipants(app.getStage(2));
+		Set<Participant> participantsNext2 = app.getQualifiedParticipants(stage2);
 		app.createStage(3, 10);
-		app.getStage(3).setParticipantsInStage(participantsNext2);
+		Stage stage3 = app.getStage(3);
+		stage3.setParticipantsInStage(new HashSet<>());
+		stage3.getParticipantsInStage().addAll(participantsNext2);
 		app.printParticipantsInStage(app.getStage(3));
 
 		app.judgesVote(app.getStage(3));
