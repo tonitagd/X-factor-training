@@ -3,6 +3,7 @@ package xFactor.infrastructure.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +21,9 @@ public class Participant extends Person {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int participantId;
 
+	@Column
+	private boolean isWinner;
+	
 	@ElementCollection
 	private List<String> qualities = new ArrayList<String>();
 
@@ -53,8 +57,11 @@ public class Participant extends Person {
 		}
 	}
 
-	public void printInfo() {
-		System.out.printf("Name: %s\nAge: %d\nGender: %s\nCity: %s\nQuality: %s\n\n", this.getName(), this.getAge(),
-				this.getGender(), this.getCity(), this.getQualities());
+	public boolean isWinner() {
+		return isWinner;
+	}
+
+	public void setWinner(boolean isWinner) {
+		this.isWinner = isWinner;
 	}
 }

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.stereotype.Service;
+
 import xFactor.infrastructure.model.Judge;
 import xFactor.infrastructure.model.JudgeFavourite;
 import xFactor.infrastructure.model.Participant;
@@ -12,6 +14,7 @@ import xFactor.infrastructure.model.Stage;
 import xFactor.infrastructure.model.Vote;
 import xFactor.service.StageService;
 
+@Service
 public class StageServiceImpl implements StageService {
 	@Override
 	public Set<Participant> qualifyParticipants(Stage stage, ArrayList<Judge> judges) {

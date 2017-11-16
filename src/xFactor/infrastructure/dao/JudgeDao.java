@@ -1,23 +1,11 @@
 package xFactor.infrastructure.dao;
 
-import org.hibernate.Session;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import xFactor.infrastructure.model.Judge;
 
-public class JudgeDao extends BaseDao {
-	private Session session = getSession();
-
-	public void save(Judge judge) {
-		session.beginTransaction();
-		session.save(judge);
-		session.getTransaction().commit();
-	}
-
-	public void update(Judge judge) {
-		session.update(judge);
-	}
-	
-	public void remove(Judge judge) {
-		session.delete(judge);
-	}
+@Repository
+@Transactional
+public class JudgeDao extends BaseDao<Judge> {
 }

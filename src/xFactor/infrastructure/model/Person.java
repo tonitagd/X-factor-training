@@ -10,9 +10,9 @@ public abstract class Person implements Serializable {
 
 	private static final long serialVersionUID = 8024592318895271883L;
 
-	@Column(name = "first_name")
+	@Column
 	private String firstName;
-	@Column(name = "last_name")
+	@Column
 	private String lastName;
 	@Column
 	private int age;
@@ -132,5 +132,4 @@ public abstract class Person implements Serializable {
 			return false;
 		return true;
 	}
-
 }

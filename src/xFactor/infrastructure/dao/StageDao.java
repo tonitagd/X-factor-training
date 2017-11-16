@@ -1,23 +1,11 @@
 package xFactor.infrastructure.dao;
 
-import org.hibernate.Session;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import xFactor.infrastructure.model.Stage;
 
-public class StageDao extends BaseDao {
-	private Session session = getSession();
-
-	public void save(Stage stage) {
-		session.beginTransaction();
-		session.save(stage);
-		session.getTransaction().commit();
-	}
-
-	public void update(Stage stage) {
-		session.update(stage);
-	}
-	
-	public void remove(Stage stage) {
-		session.delete(stage);
-	}
+@Repository
+@Transactional
+public class StageDao extends BaseDao<Stage> {
 }

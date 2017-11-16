@@ -28,25 +28,31 @@ public class Stage implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int stageId;
+	
 	@Column(name = "stage_number", nullable = false, unique = true)
 	private int stageNumber;
+	
 	@Column(name = "max_participants", nullable = false)
 	private int maxParticipants;
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "participants_in_stage")
 	@JoinColumns({ @JoinColumn(name = "stageId", insertable = false, updatable = false),
 			@JoinColumn(name = "participantId", insertable = false, updatable = false) })
 	private Set<Participant> participantsInStage = new HashSet<Participant>();
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "stage_qualified_participants")
 	@JoinColumns({ @JoinColumn(name = "stageId", insertable = false, updatable = false),
 			@JoinColumn(name = "participantId", insertable = false, updatable = false) })
 	private Set<Participant> qualifiedParticipants = new HashSet<Participant>();
+	
 	@ManyToMany(targetEntity = JudgeFavourite.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "stage_favourite_participants")
 	@JoinColumns({ @JoinColumn(name = "stageId", insertable = true, updatable = true),
 			@JoinColumn(name = "judgeFavouriteId", insertable = true, updatable = true) })
 	private List<JudgeFavourite> judgeFavourites = new ArrayList<JudgeFavourite>();
+	
 	@OneToMany
 	private List<Vote> votes = new ArrayList<Vote>();
 
@@ -119,10 +125,14 @@ public class Stage implements Serializable {
 		return vote;
 	}
 
-	public void checkForWinner() {
+	public Participant checkForWinner() {
 		if (this.getQualifiedParticipants().size() == 1) {
-			System.out.println("Winner of X-Factor is:" + "\n" + this.getQualifiedParticipants());
+			ArrayList<Participant> list = new ArrayList<Participant>();
+			list.addAll(qualifiedParticipants);
+			list.get(0).setWinner(true);
+			return list.get(0);
 		}
+		return null;
 	}
 
 	public void addFavourite(Participant participant, Judge judge) {

@@ -1,71 +1,39 @@
 package xFactor.infrastructure.dao;
 
-import java.util.Properties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import xFactor.config.AppConfig;
 
-import xFactor.infrastructure.model.Stage;
-import xFactor.infrastructure.model.Judge;
-import xFactor.infrastructure.model.JudgeFavourite;
-import xFactor.infrastructure.model.Participant;
-import xFactor.infrastructure.model.Vote;
-
-public abstract class BaseDao {
-
-	private static Session session;
-
-	private static SessionFactory sessionFactory;
-	
-	static {
-		sessionFactory = new Configuration()
-				.addProperties(getProperties())
-				.addPackage("xFactor.infrastructure.model")
-				.addAnnotatedClass(Participant.class)
-				.addAnnotatedClass(Judge.class)
-				.addAnnotatedClass(Stage.class)
-				.addAnnotatedClass(Vote.class)
-				.addAnnotatedClass(JudgeFavourite.class)
-				.buildSessionFactory();
-		session = sessionFactory.openSession();
-	}
+@Repository
+@Transactional
+public abstract class BaseDao<T> {
+	@Autowired
+	AppConfig config;
 
 	public BaseDao() {
 	}
 
-	private static Properties getProperties() {
-		Properties prop = new Properties();
-
-		prop.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-		prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-
-		prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/x-factor");
-		prop.setProperty("hibernate.default_schema", "x-factor");
-		prop.setProperty("hibernate.connection.username", "root");
-		prop.setProperty("hibernate.connection.password", "root");
-
-		prop.setProperty("hibernate.connection.pool_size", "5");
-
-		prop.setProperty("hibernate.show_sql", "true");
-		prop.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-
-		return prop;
+	public void save(T t) {
+		config.getSession().beginTransaction();
+		config.getSession().save(t);
+		config.getSession().getTransaction().commit();
 	}
 
-	public Session getSession() {
-		return session;
+	public void update(T t) {
+		config.getSession().update(t);
 	}
 
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+	public void remove(T t) {
+		config.getSession().delete(t);
 	}
 
 	public void closeSession() {
-		if (session != null) {
+		if (config.getSession() != null) {
 			try {
-				session.close();
-				sessionFactory.close();
+				config.getSession().close();
+				config.getSessionFactory().close();
 			} catch (Exception e) {
 				System.err.println("Could not close session: " + e.getMessage());
 			}
